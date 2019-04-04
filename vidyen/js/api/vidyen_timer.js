@@ -1,10 +1,10 @@
 //Refresh the MO
-function moAjaxTimerPrimus()
+function vidyen_timer()
 {
   //Should call ajax every 30 seconds
   var ajaxTime = 1;
-  var id = setInterval(moAjaxTimeFrame, 1000); //1000 is 1 second
-  function moAjaxTimeFrame()
+  var id = setInterval(vidyen_TimeFrame, 1000); //1000 is 1 second
+  function vidyen_TimeFrame()
   {
     if (ajaxTime >= 30)
     {

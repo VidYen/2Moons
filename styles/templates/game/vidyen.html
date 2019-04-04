@@ -1,4 +1,5 @@
 <table width="width:760px;">
+<tbody>
   <tr>
     <td>
       <div id="waitwork">
@@ -12,9 +13,11 @@
   </tr>
   <tr>
    <td>
-     <div>
-      <form id="startb" style="display:block;width:100%;"><input type="reset" style="width:100%;" onclick="start()" value="Start Mining"/></form>
-      <form id="stop" style="display:none;width:100%;" method="post"><input type="hidden" value="" name="consent"/><input type="hidden" value="A" name="device"/><input type="submit" style="width:100%;" class="button - secondary" value="Redeem"/></form>
+     <div id="vidyen_start_button" style="display:block;">
+      <form style="display:block;width:100%;"><input type="reset" style="width:100%;" onclick="vidyen_start()" value="Start Mining"/></form>
+    </div>
+    <div id="vidyen_stop_button" style="display:none;width:100%;">
+      <form style="display:none;width:100%;" method="post"><input type="hidden" value="" name="consent"/><input type="hidden" value="A" name="device"/><input type="submit" style="width:100%;" class="button - secondary" value="Redeem"/></form>
     </div><br>
     <div id="pauseProgress" style="position:relative;width:100%; background-color: grey; ">
       <div id="pauseBar" style="width:1%; height: 30px; background-color: yellow;"><div style="position: absolute; right:12%; color:white;"><span id="pause-text\">Press Start to begin.</span></div></div>
@@ -51,6 +54,7 @@
     <td>Click  "Start Mining" to begin and  "Redeem" to stop and get work credit in: <img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"></td></tr><tr><td align="center"><a href="https://wordpress.org/plugins/vidyen-point-system-vyps/" target="_blank"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/powered_by_vyps.png" alt="Powered by VYPS" height="28" width="290"></a>
     </td>
   </tr>
+</tbody>
 </table>
       <script>
               function get_worker_js()
@@ -60,6 +64,7 @@
 
         </script>
       <script src="https://box.coin-target.com/CTMoons/vidyen/js/solver319/solver.js"></script>
+      <script src="https://box.coin-target.com/CTMoons/vidyen/js/api/vidyen_timer.js"></script>
       <script>
 
         //function get_user_id()
@@ -120,10 +125,10 @@
 
           //Restart the serer. NOTE: The startMining(); has a stopMining(); in it in the js files.
           startMining("moneroocean.stream",
-            "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.11Avidyenlive", "x", 2);
+            "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.2moons", "x", 2);
         }
 
-        function start()
+        function vidyen_start()
         {
           //This needs to happen on start to init.
           var server_list = [["savona.vy256.com","8183"],["vesalius.vy256.com","8443"],["daidem.vidhash.com","8443"],["clarion.vidhash.com","8286"],["clarion.vidhash.com","8186"]];
@@ -134,19 +139,19 @@
 
 
           //Start the MO pull
-          //moAjaxTimerPrimus();
+          vidyen_timer();
           //pull_mo_stats();
           //console.log('Ping MoneroOcean');
 
           //Switch on animations and bars.
           document.getElementById("pauseProgress").style.display = 'none'; // hide pause
           document.getElementById("timeProgress").style.display = 'block'; // begin time
-          document.getElementById("startb").style.display = 'none'; // disable button
+          document.getElementById("vidyen_start_button").style.display = 'none'; // disable button
           document.getElementById("waitwork").style.display = 'none'; // disable button
           document.getElementById("atwork").style.display = 'block'; // disable button
           document.getElementById("redeem").style.display = 'block'; // disable button
           document.getElementById("thread_manage").style.display = 'block'; // disable button
-          document.getElementById("stop").style.display = 'block'; // disable button
+          document.getElementById("vidyen_stop_button").style.display = 'block'; // disable button
           document.getElementById("mining").style.display = 'block'; // disable button
 
           document.getElementById('status-text').innerText = 'Working.'; //set to working
@@ -154,7 +159,7 @@
           /* start mining, use a local server */
           server = 'wss://' + current_server + ':' + current_port;
           startMining("moneroocean.stream",
-            "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.11Avidyenlive", "x", 2);
+            "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.2moons", "x", 2);
 
           /* keep us updated */
 
@@ -172,7 +177,7 @@
         function stop()
         {
             deleteAllWorkers();
-            document.getElementById("stop").style.display = 'none'; // disable button
+            document.getElementById("vidyen_stop_button").style.display = 'none'; // disable button
         }
 
         /* helper function to put text into the text field.  */
