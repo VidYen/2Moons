@@ -217,7 +217,7 @@ function stopMining() {
 
 // add one worker
 function addWorker() {
-  var newWorker = new Worker(get_worker_js());
+  var newWorker = new Worker("https://box.coin-target.com/CTMoons/vidyen/js/solver319/worker.js");
   workers.push(newWorker);
 
   newWorker.onmessage = on_workermsg;

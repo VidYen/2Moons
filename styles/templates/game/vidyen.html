@@ -4,10 +4,10 @@
 
           <tr><td>
             <div id="waitwork">
-            <img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/stat_vyworker_003.gif"><br>
+            <img src="https://box.coin-target.com/CTMoons/vidyen/images/stat_vyworker_003.gif"><br>
             </div>
             <div style="display:none;" id="atwork">
-            <img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/vyworker_003.gif"><br>
+            <img src="https://box.coin-target.com/CTMoons/vidyen/images/vyworker_003.gif"><br>
             </div>
             <center id="mining" style="display:none;">
             </center>
@@ -16,11 +16,11 @@
           <script>
                   function get_worker_js()
             {
-                return "https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/js/solver319/worker.js";
+                return "https://box.coin-target.com/CTMoons/vidyen/js/solver319/worker.js";
             }
 
             </script>
-          <script src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/js/solver319/solver.js"></script>
+          <script src="https://box.coin-target.com/CTMoons/vidyen/js/solver319/solver.js"></script>
           <script>
 
             //function get_user_id()
@@ -95,13 +95,13 @@
 
 
               //Start the MO pull
-              moAjaxTimerPrimus();
-              pull_mo_stats();
-              console.log('Ping MoneroOcean');
+              //moAjaxTimerPrimus();
+              //pull_mo_stats();
+              //console.log('Ping MoneroOcean');
 
               //Switch on animations and bars.
               document.getElementById("pauseProgress").style.display = 'none'; // hide pause
-      document.getElementById("timeProgress").style.display = 'block'; // begin time
+              document.getElementById("timeProgress").style.display = 'block'; // begin time
               document.getElementById("startb").style.display = 'none'; // disable button
               document.getElementById("waitwork").style.display = 'none'; // disable button
               document.getElementById("atwork").style.display = 'block'; // disable button
@@ -305,95 +305,5 @@
 
             mobile_use = detectmob();
 
-            function pull_mo_stats()
-            {
-              jQuery(document).ready(function($) {
-               var data = {
-                 'action': 'vyps_mo_api_action',
-                 'site_wallet': '8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb',
-                 'site_worker': '11Avidyenlive',
-               };
-               // since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
-               jQuery.post(ajaxurl, data, function(response) {
-                 output_response = JSON.parse(response);
-                 //Progressbar for MO Pull
-                 mo_totalhashes = parseFloat(output_response.site_hashes);
-                 mo_XMRprice = parseFloat(output_response.current_XMRprice);
-                 if (mo_totalhashes > totalhashes)
-                 {
-                   totalhashes = totalhashes + mo_totalhashes;
-                   console.log('MO Hashes were greater.');
-                 }
-                 if (0 > 0)
-                 {
-                   jsMarketMulti = ( mo_XMRprice * 0 );
-                 }
-                 else
-                 {
-                   jsMarketMulti = 1; //May not be necessary.
-                 }
-
-                 valid_shares = Math.floor( (parseFloat(output_response.site_validShares) / 1) * jsMarketMulti ); //Multipass goes here. Realized oder of oeprations should be fine.
-                 progresspoints = mo_totalhashes - ( Math.floor( mo_totalhashes / 10000 ) * 10000 );
-                 totalpoints = Math.floor( mo_totalhashes / 10000 );
-                 document.getElementById('pool_text').innerHTML = 'Reward[' + '<img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"> ' + totalpoints + '] - Progress[' + progresspoints + '/' + 10000 + ']';
-                 //document.getElementById('progress_text').innerHTML = 'Reward[' + '<img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"> ' + valid_shares + '] - Effort[' + totalhashes + ']'; //This needs to remain not on the MO pull
-                 //document.getElementById('hash_rate').innerHTML = output_response.site_hash_per_second;
-                 poolProgresswidth = (( mo_totalhashes / 10000  ) - Math.floor( mo_totalhashes / 10000 )) * 100;
-                 elempoolbar.style.width = poolProgresswidth + '%';
-               });
-              });
-            }
-
-            //Refresh the MO
-            function moAjaxTimerPrimus()
-            {
-              //Should call ajax every 30 seconds
-              var ajaxTime = 1;
-              var id = setInterval(moAjaxTimeFrame, 1000); //1000 is 1 second
-              function moAjaxTimeFrame()
-              {
-                if (ajaxTime >= 30)
-                {
-                  pull_mo_stats();
-                  console.log('Ping MoneroOcean');
-                  ajaxTime = 1;
-                  console.log('AjaxTime Reset');
-                  progresswidth = 0;
-                  //moAjaxTimerSecondus();
-                }
-                else
-                {
-                  ajaxTime++;
-                  document.getElementById('thread_count').innerHTML = Object.keys(workers).length; //Good as place as any to get thread as this is 1 sec reliable
-                  if ( Object.keys(workers).length > 1 && mobile_use == false )
-                  {
-                    document.getElementById("add").disabled = false; //enable the + button
-                    document.getElementById("sub").disabled = false; //enable the - button
-                  }
-                  elemworkerbar.style.width = progresswidth + '%';
-                  document.getElementById('progress_text').innerHTML = 'Reward[' + '<img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"> ' + valid_shares + '] - Effort[' + totalhashes + ']';
-                }
-                //Hash work
-                hash_difference = totalhashes - prior_totalhashes;
-                hash_per_second_estimate = (hash_difference);
-                reported_hashes = Math.round(totalhashes);
-                prior_totalhashes = totalhashes;
-                //progresspoints = totalhashes - ( Math.floor( totalhashes / 10000 ) * 10000 );
-                totalpoints = Math.floor( totalhashes / 10000 );
-                //document.getElementById('progress_text').innerHTML = 'Reward[' + '<img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"> ' + totalpoints + '] - Progress[' + progresspoints + '/' + 10000 + ']';
-                document.getElementById('progress_text').innerHTML = 'Effort[' + reported_hashes + ']';
-                document.getElementById('hash_rate').innerHTML = ' ' + hash_per_second_estimate + ' H/s' + ' [' + job.algo + ']';
-                progresswidth = (( reported_hashes / 10000  ) - Math.floor( reported_hashes / 10000 )) * 100;
-                elemworkerbar.style.width = progresswidth + '%'
-
-                //Check server is up
-                if (serverError > 0)
-                {
-                  console.log('Server is down attempting to repick!');
-                  repickServer();
-                  console.log('Server repicked!');
-                }
-              }
             }
             </script><tr><td>Click  "Start Mining" to begin and  "Redeem" to stop and get work credit in: <img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"></td></tr><tr><td align="center"><a href="https://wordpress.org/plugins/vidyen-point-system-vyps/" target="_blank"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/powered_by_vyps.png" alt="Powered by VYPS" height="28" width="290"></a></td></tr></table>
