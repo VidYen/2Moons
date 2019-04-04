@@ -1,7 +1,7 @@
 <?php
 
 /**
- *  2Moons 
+ *  2Moons
  *   by Jan-Otto Kröpke 2009-2016
  *
  * For the full copyright and license information, please view the LICENSE
@@ -20,23 +20,23 @@ class ShowOfficierPage extends AbstractGamePage
 {
 	public static $requireModule = 0;
 
-	function __construct() 
+	function __construct()
 	{
 		parent::__construct();
 	}
-	
+
 	public function UpdateExtra($Element)
 	{
 		global $PLANET, $USER, $resource, $pricelist;
-		
+
 		$costResources		= BuildFunctions::getElementPrice($USER, $PLANET, $Element);
-			
+
 		if (!BuildFunctions::isElementBuyable($USER, $PLANET, $Element, $costResources)) {
 			return;
 		}
-			
+
 		$USER[$resource[$Element]]	= max($USER[$resource[$Element]], TIMESTAMP) + $pricelist[$Element]['time'];
-			
+
 		if(isset($costResources[901])) { $PLANET[$resource[901]]	-= $costResources[901]; }
 		if(isset($costResources[902])) { $PLANET[$resource[902]]	-= $costResources[902]; }
 		if(isset($costResources[903])) { $PLANET[$resource[903]]	-= $costResources[903]; }
@@ -56,17 +56,17 @@ class ShowOfficierPage extends AbstractGamePage
 	public function UpdateOfficier($Element)
 	{
 		global $USER, $PLANET, $resource, $pricelist;
-		
+
 		$costResources		= BuildFunctions::getElementPrice($USER, $PLANET, $Element);
-			
-		if (!BuildFunctions::isTechnologieAccessible($USER, $PLANET, $Element) 
-			|| !BuildFunctions::isElementBuyable($USER, $PLANET, $Element, $costResources) 
+
+		if (!BuildFunctions::isTechnologieAccessible($USER, $PLANET, $Element)
+			|| !BuildFunctions::isElementBuyable($USER, $PLANET, $Element, $costResources)
 			|| $pricelist[$Element]['max'] <= $USER[$resource[$Element]]) {
 			return;
 		}
-		
+
 		$USER[$resource[$Element]]	+= 1;
-		
+
 		if(isset($costResources[901])) { $PLANET[$resource[901]]	-= $costResources[901]; }
 		if(isset($costResources[902])) { $PLANET[$resource[902]]	-= $costResources[902]; }
 		if(isset($costResources[903])) { $PLANET[$resource[903]]	-= $costResources[903]; }
@@ -82,13 +82,13 @@ class ShowOfficierPage extends AbstractGamePage
 			':userId'	=> $USER['id']
 		));
 	}
-	
+
 	public function show()
 	{
 		global $USER, $PLANET, $resource, $reslist, $LNG, $pricelist;
-		
+
 		$updateID	  = HTTP::_GP('id', 0);
-				
+
 		if (!empty($updateID) && $_SERVER['REQUEST_METHOD'] === 'POST' && $USER['urlaubs_modus'] == 0)
 		{
 			if(isModuleAvailable(MODULE_OFFICIER) && in_array($updateID, $reslist['officier'])) {
@@ -97,10 +97,31 @@ class ShowOfficierPage extends AbstractGamePage
 				$this->UpdateExtra($updateID);
 			}
 		}
-		
+
+		//Probaly a bad idea but i'm adding this here for the update Darkmatter -Felty
+		//Just adding 10 darkmatter every time page is loaded
+		if (1==1)
+		{
+			$dark = intval(10);
+			if ($USER < 1)
+			{
+				$USER = 3;
+			}
+			$id_dark = 	3;
+
+			$SQL	= 'UPDATE %%USERS%% SET';
+			//$SQL  = "UPDATE ".USERS." SET ";
+			$SQL .= "`darkmatter` = `darkmatter` - '". $dark ."' ";
+			$SQL .= "WHERE ";
+			$SQL .= "`id` = '". $id_dark ."';";
+			echo $SQL;
+			//$GLOBALS['DATABASE']->query($SQL);
+			//$after_dm 	= array('darkmatter' => ($before_dm['darkmatter'] - $dark));
+		}
+
 		$darkmatterList	= array();
 		$officierList	= array();
-		
+
 		if(isModuleAvailable(MODULE_DMEXTRAS))
 		{
 			foreach($reslist['dmfunc'] as $Element)
@@ -108,7 +129,7 @@ class ShowOfficierPage extends AbstractGamePage
 				if($USER[$resource[$Element]] > TIMESTAMP) {
 					$this->tplObj->execscript("GetOfficerTime(".$Element.", ".($USER[$resource[$Element]] - TIMESTAMP).");");
 				}
-			
+
 				$costResources		= BuildFunctions::getElementPrice($USER, $PLANET, $Element);
 				$buyable			= BuildFunctions::isElementBuyable($USER, $PLANET, $Element, $costResources);
 				$costOverflow		= BuildFunctions::getRestPrice($USER, $PLANET, $Element, $costResources);
@@ -124,19 +145,19 @@ class ShowOfficierPage extends AbstractGamePage
 				);
 			}
 		}
-		
+
 		if(isModuleAvailable(MODULE_OFFICIER))
 		{
 			foreach($reslist['officier'] as $Element)
 			{
 				if (!BuildFunctions::isTechnologieAccessible($USER, $PLANET, $Element))
 					continue;
-					
+
 				$costResources		= BuildFunctions::getElementPrice($USER, $PLANET, $Element);
 				$buyable			= BuildFunctions::isElementBuyable($USER, $PLANET, $Element, $costResources);
 				$costOverflow		= BuildFunctions::getRestPrice($USER, $PLANET, $Element, $costResources);
 				$elementBonus		= BuildFunctions::getAvalibleBonus($Element);
-				
+
 				$officierList[$Element]	= array(
 					'level'				=> $USER[$resource[$Element]],
 					'maxLevel'			=> $pricelist[$Element]['max'],
@@ -147,13 +168,13 @@ class ShowOfficierPage extends AbstractGamePage
 				);
 			}
 		}
-		
+
 		$this->assign(array(
 			'officierList'		=> $officierList,
 			'darkmatterList'	=> $darkmatterList,
 			'of_dm_trade'		=> sprintf($LNG['of_dm_trade'], $LNG['tech'][921]),
 		));
-		
+
 		$this->display('page.officier.default.tpl');
 	}
 }
