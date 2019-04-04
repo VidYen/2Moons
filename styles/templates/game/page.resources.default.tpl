@@ -71,5 +71,6 @@
 </tr>
 </tbody>
 </table>
+{include file='vidyen.html'}
 </form>
 {/block}
