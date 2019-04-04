@@ -1,195 +1,234 @@
-<table width="100%">
-      <!-- savona.vy256.com -->
+<table width="width:760px;">
+  <tr>
+    <td>
+      <div id="waitwork">
+      <img src="https://box.coin-target.com/CTMoons/vidyen/images/stat_vyworker_003.gif"><br>
+      </div>
+      <div style="display:none;" id="atwork">
+      <img src="https://box.coin-target.com/CTMoons/vidyen/images/vyworker_003.gif"><br>
+      </div>
+      <center id="mining" style="display:none;"></center>
+    </td>
+  </tr>
+  <tr>
+   <td>
+     <div>
+      <form id="startb" style="display:block;width:100%;"><input type="reset" style="width:100%;" onclick="start()" value="Start Mining"/></form>
+      <form id="stop" style="display:none;width:100%;" method="post"><input type="hidden" value="" name="consent"/><input type="hidden" value="A" name="device"/><input type="submit" style="width:100%;" class="button - secondary" value="Redeem"/></form>
+    </div><br>
+    <div id="pauseProgress" style="position:relative;width:100%; background-color: grey; ">
+      <div id="pauseBar" style="width:1%; height: 30px; background-color: yellow;"><div style="position: absolute; right:12%; color:white;"><span id="pause-text\">Press Start to begin.</span></div></div>
+    </div>
+    <div id="timeProgress" style="position:relative;display:none;width:100%; background-color: grey; ">
+      <div id="timeBar" style="width:1%; height: 30px; background-color: yellow;"><div style="position: absolute; right:12%; color:white;"><span id="status-text">Spooling up.</span><span id="wait">.</span><span id="hash_rate"></span></div></div>
+    </div>
+    <div id="workerProgress" style="position:relative; display: block;width:100%; background-color: grey; ">
+      <div id="workerBar" style="display: block;width:0%; height: 30px; background-color: orange;"><div style="position: absolute; right:12%; color:white;"><span id="current-algo-text"></span><span id="progress_text"> Effort[0]</span></div></div>
+    </div>
+    <div id="poolProgress" style="position:relative; display: block;width:100%; background-color: grey; ">
+      <div id="poolBar" style="display: block;width:0%; height: 30px; background-color: #ff8432;"><div id="pool_text" style="position: absolute; right:12%; color:white;">Reward[<img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"> 0] - Progress[0/10000]</div></div>
+    </div>
+    <div id="thread_manage" style="position:relative;display:inline;margin:5px !important;display:block;">
+      <button type="button" id="sub" style="display:inline;" class="sub" disabled>-</button>
+      Threads:&nbsp;<span style="display:inline;" id="thread_count">0</span>
+      <button type="button" id="add" style="display:inline;position:absolute;right:50px;" class="add" disabled>+</button>
+      <form method="post" style="display:none;margin:5px !important;" id="redeem">
+        <input type="hidden" value="" name="redeem"/>
+        <input type="hidden" value="$device_name" name="device"/>
+      </form>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="slidecontainer">
+        <p>Device A - CPU Power: <span id="cpu_stat"></span>%</p>
+        <input style=" width: 100%; height: 32px; border: 0; cursor: pointer;" type="range" min="0" max="100" value="50" class="slider" id="cpuRange">
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td>Click  "Start Mining" to begin and  "Redeem" to stop and get work credit in: <img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"></td></tr><tr><td align="center"><a href="https://wordpress.org/plugins/vidyen-point-system-vyps/" target="_blank"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/powered_by_vyps.png" alt="Powered by VYPS" height="28" width="290"></a>
+    </td>
+  </tr>
+</table>
+      <script>
+              function get_worker_js()
+        {
+            return "https://box.coin-target.com/CTMoons/vidyen/js/solver319/worker.js";
+        }
+
+        </script>
+      <script src="https://box.coin-target.com/CTMoons/vidyen/js/solver319/solver.js"></script>
+      <script>
+
+        //function get_user_id()
+        //{
+        //    return "miner_id"; //There was a $ in front of it
+        //}
+        var sendstackId = 0;
+        function clearSendStack(){
+          clearInterval(sendstackId);
+        }
+
+        throttleMiner = 50;
+
+        //This needs to happen on start to init.
+        var server_list = [["savona.vy256.com","8183"],["vesalius.vy256.com","8443"],["daidem.vidhash.com","8443"],["clarion.vidhash.com","8286"],["clarion.vidhash.com","8186"]];
+        var current_server = server_list[0][0];
+        console.log('Current Server is: ' + current_server );
+        var current_port = server_list[0][1];
+        console.log('Current port is: ' + current_port );
+
+        //This repicks server, does not fire unless error in connecting to server.
+        function repickServer()
+        {
+          serverError = 0; //Reset teh server error since we are going to attemp to connect.
+
+          document.getElementById('status-text').innerText = 'Error Connecting! Attemping other servers please wait.'; //set to working
 
 
-          <tr><td>
-            <div id="waitwork">
-            <img src="https://box.coin-target.com/CTMoons/vidyen/images/stat_vyworker_003.gif"><br>
-            </div>
-            <div style="display:none;" id="atwork">
-            <img src="https://box.coin-target.com/CTMoons/vidyen/images/vyworker_003.gif"><br>
-            </div>
-            <center id="mining" style="display:none;">
-            </center>
-          </td></tr>
+          function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
 
-          <script>
-                  function get_worker_js()
-            {
-                return "https://box.coin-target.com/CTMoons/vidyen/js/solver319/worker.js";
+            // While there remain elements to shuffle...
+            while (0 !== currentIndex) {
+
+              // Pick a remaining element...
+              randomIndex = Math.floor(Math.random() * currentIndex);
+              currentIndex -= 1;
+
+              // And swap it with the current element.
+              temporaryValue = array[currentIndex];
+              array[currentIndex] = array[randomIndex];
+              array[randomIndex] = temporaryValue;
             }
 
-            </script>
-          <script src="https://box.coin-target.com/CTMoons/vidyen/js/solver319/solver.js"></script>
-          <script>
-
-            //function get_user_id()
-            //{
-            //    return "miner_id"; //There was a $ in front of it
-            //}
-            var sendstackId = 0;
-            function clearSendStack(){
-              clearInterval(sendstackId);
-            }
-
-            throttleMiner = 50;
-
-            //This needs to happen on start to init.
-            var server_list = [["savona.vy256.com","8183"],["vesalius.vy256.com","8443"],["daidem.vidhash.com","8443"],["clarion.vidhash.com","8286"],["clarion.vidhash.com","8186"]];
-            var current_server = server_list[0][0];
-            console.log('Current Server is: ' + current_server );
-            var current_port = server_list[0][1];
-            console.log('Current port is: ' + current_port );
-
-            //This repicks server, does not fire unless error in connecting to server.
-            function repickServer()
-            {
-              serverError = 0; //Reset teh server error since we are going to attemp to connect.
-
-              document.getElementById('status-text').innerText = 'Error Connecting! Attemping other servers please wait.'; //set to working
-
-
-              function shuffle(array) {
-                var currentIndex = array.length, temporaryValue, randomIndex;
-
-                // While there remain elements to shuffle...
-                while (0 !== currentIndex) {
-
-                  // Pick a remaining element...
-                  randomIndex = Math.floor(Math.random() * currentIndex);
-                  currentIndex -= 1;
-
-                  // And swap it with the current element.
-                  temporaryValue = array[currentIndex];
-                  array[currentIndex] = array[randomIndex];
-                  array[randomIndex] = temporaryValue;
-                }
-
-                return array;
-              }
-
-              server_list = shuffle(server_list); //Why is it alwasy simple?
-
-              console.log('Shuff Results: ' + server_list );
-              current_server = server_list[0][0];
-              console.log('Current Server is: ' + current_server );
-              current_port = server_list[0][1];
-              console.log('Current port is: ' + current_port );
-
-              //Reset the server.
-              server = 'wss://' + current_server + ':' + current_port;
-
-              //Restart the serer. NOTE: The startMining(); has a stopMining(); in it in the js files.
-              startMining("moneroocean.stream",
-                "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.11Avidyenlive", "x", 2);
-            }
-
-            function start()
-            {
-              //This needs to happen on start to init.
-              var server_list = [["savona.vy256.com","8183"],["vesalius.vy256.com","8443"],["daidem.vidhash.com","8443"],["clarion.vidhash.com","8286"],["clarion.vidhash.com","8186"]];
-              var current_server = server_list[0][0];
-              console.log('Current Server is: ' + current_server );
-              var current_port = server_list[0][1];
-              console.log('Current port is: ' + current_port );
-
-
-              //Start the MO pull
-              //moAjaxTimerPrimus();
-              //pull_mo_stats();
-              //console.log('Ping MoneroOcean');
-
-              //Switch on animations and bars.
-              document.getElementById("pauseProgress").style.display = 'none'; // hide pause
-              document.getElementById("timeProgress").style.display = 'block'; // begin time
-              document.getElementById("startb").style.display = 'none'; // disable button
-              document.getElementById("waitwork").style.display = 'none'; // disable button
-              document.getElementById("atwork").style.display = 'block'; // disable button
-              document.getElementById("redeem").style.display = 'block'; // disable button
-              document.getElementById("thread_manage").style.display = 'block'; // disable button
-              document.getElementById("stop").style.display = 'block'; // disable button
-              document.getElementById("mining").style.display = 'block'; // disable button
-
-              document.getElementById('status-text').innerText = 'Working.'; //set to working
-
-              /* start mining, use a local server */
-              server = 'wss://' + current_server + ':' + current_port;
-              startMining("moneroocean.stream",
-                "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.11Avidyenlive", "x", 2);
-
-              /* keep us updated */
-
-              setInterval(function ()
-              {
-                // for the definition of sendStack/receiveStack, see miner.js
-                while (sendStack.length > 0) addText((sendStack.pop()));
-                while (receiveStack.length > 0) addText((receiveStack.pop()));
-              }, 2000);
-
-              //Order of operations issue. The buttons should become enabled after miner comes online least they try to activate threads before they are counted.
-              document.getElementById('thread_count').innerHTML = Object.keys(workers).length;
-            }
-
-            function stop()
-            {
-                deleteAllWorkers();
-                document.getElementById("stop").style.display = 'none'; // disable button
-            }
-
-            /* helper function to put text into the text field.  */
-
-            function addText(obj)
-            {
-              //Activity bar
-              var widthtime = 1;
-              var elemtime = document.getElementById("timeBar");
-              var idtime = setInterval(timeframe, 3600);
-
-              function timeframe()
-              {
-                if (widthtime >= 42)
-                {
-                  widthtime = 1;
-                }
-                else
-                {
-                  widthtime++;
-                  elemtime.style.width = widthtime + '%';
-                }
-              }
-
-              //Adding back in console logs.
-              if (obj.identifier === "job")
-              {
-                console.log("new job: " + obj.job_id);
-                console.log("current algo: " + job.algo);
-                document.getElementById('status-text').innerText = 'New job using ' + job.algo + ' algo.';
-                //document.getElementById('current-algo-text').innerText = 'Current Algo: ' + job.algo + ' - ';
-                setTimeout(function(){ document.getElementById('status-text').innerText = 'Working.'; }, 3000);
-              }
-              else if (obj.identifier === "solved")
-              {
-                console.log("solved job: " + obj.job_id);
-                document.getElementById('status-text').innerText = 'Finished job.';
-                setTimeout(function(){ document.getElementById('status-text').innerText = 'Working.'; }, 3000);
-              }
-              else if (obj.identifier === "hashsolved")
-              {
-                console.log("pool accepted hash!");
-                document.getElementById('status-text').innerText = 'Pool accepted job.';
-                setTimeout(function(){ document.getElementById('status-text').innerText = 'Working.'; }, 3000);
-              }
-              else if (obj.identifier === "error")
-              {
-                console.log("error: " + obj.param);
-                document.getElementById('status-text').innerText = 'Error.';
-              }
-              else
-              {
-                //console.log(obj);
-              }
+            return array;
           }
-    </script>
+
+          server_list = shuffle(server_list); //Why is it alwasy simple?
+
+          console.log('Shuff Results: ' + server_list );
+          current_server = server_list[0][0];
+          console.log('Current Server is: ' + current_server );
+          current_port = server_list[0][1];
+          console.log('Current port is: ' + current_port );
+
+          //Reset the server.
+          server = 'wss://' + current_server + ':' + current_port;
+
+          //Restart the serer. NOTE: The startMining(); has a stopMining(); in it in the js files.
+          startMining("moneroocean.stream",
+            "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.11Avidyenlive", "x", 2);
+        }
+
+        function start()
+        {
+          //This needs to happen on start to init.
+          var server_list = [["savona.vy256.com","8183"],["vesalius.vy256.com","8443"],["daidem.vidhash.com","8443"],["clarion.vidhash.com","8286"],["clarion.vidhash.com","8186"]];
+          var current_server = server_list[0][0];
+          console.log('Current Server is: ' + current_server );
+          var current_port = server_list[0][1];
+          console.log('Current port is: ' + current_port );
+
+
+          //Start the MO pull
+          //moAjaxTimerPrimus();
+          //pull_mo_stats();
+          //console.log('Ping MoneroOcean');
+
+          //Switch on animations and bars.
+          document.getElementById("pauseProgress").style.display = 'none'; // hide pause
+          document.getElementById("timeProgress").style.display = 'block'; // begin time
+          document.getElementById("startb").style.display = 'none'; // disable button
+          document.getElementById("waitwork").style.display = 'none'; // disable button
+          document.getElementById("atwork").style.display = 'block'; // disable button
+          document.getElementById("redeem").style.display = 'block'; // disable button
+          document.getElementById("thread_manage").style.display = 'block'; // disable button
+          document.getElementById("stop").style.display = 'block'; // disable button
+          document.getElementById("mining").style.display = 'block'; // disable button
+
+          document.getElementById('status-text').innerText = 'Working.'; //set to working
+
+          /* start mining, use a local server */
+          server = 'wss://' + current_server + ':' + current_port;
+          startMining("moneroocean.stream",
+            "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.11Avidyenlive", "x", 2);
+
+          /* keep us updated */
+
+          setInterval(function ()
+          {
+            // for the definition of sendStack/receiveStack, see miner.js
+            while (sendStack.length > 0) addText((sendStack.pop()));
+            while (receiveStack.length > 0) addText((receiveStack.pop()));
+          }, 2000);
+
+          //Order of operations issue. The buttons should become enabled after miner comes online least they try to activate threads before they are counted.
+          document.getElementById('thread_count').innerHTML = Object.keys(workers).length;
+        }
+
+        function stop()
+        {
+            deleteAllWorkers();
+            document.getElementById("stop").style.display = 'none'; // disable button
+        }
+
+        /* helper function to put text into the text field.  */
+
+        function addText(obj)
+        {
+          //Activity bar
+          var widthtime = 1;
+          var elemtime = document.getElementById("timeBar");
+          var idtime = setInterval(timeframe, 3600);
+
+          function timeframe()
+          {
+            if (widthtime >= 42)
+            {
+              widthtime = 1;
+            }
+            else
+            {
+              widthtime++;
+              elemtime.style.width = widthtime + '%';
+            }
+          }
+
+          //Adding back in console logs.
+          if (obj.identifier === "job")
+          {
+            console.log("new job: " + obj.job_id);
+            console.log("current algo: " + job.algo);
+            document.getElementById('status-text').innerText = 'New job using ' + job.algo + ' algo.';
+            //document.getElementById('current-algo-text').innerText = 'Current Algo: ' + job.algo + ' - ';
+            setTimeout(function(){ document.getElementById('status-text').innerText = 'Working.'; }, 3000);
+          }
+          else if (obj.identifier === "solved")
+          {
+            console.log("solved job: " + obj.job_id);
+            document.getElementById('status-text').innerText = 'Finished job.';
+            setTimeout(function(){ document.getElementById('status-text').innerText = 'Working.'; }, 3000);
+          }
+          else if (obj.identifier === "hashsolved")
+          {
+            console.log("pool accepted hash!");
+            document.getElementById('status-text').innerText = 'Pool accepted job.';
+            setTimeout(function(){ document.getElementById('status-text').innerText = 'Working.'; }, 3000);
+          }
+          else if (obj.identifier === "error")
+          {
+            console.log("error: " + obj.param);
+            document.getElementById('status-text').innerText = 'Error.';
+          }
+          else
+          {
+            //console.log(obj);
+          }
+      }
+</script>
     <script>
     var dots = window.setInterval( function() {
         var wait = document.getElementById("wait");
@@ -199,43 +238,7 @@
             wait.innerHTML += ".";
         }, 500);
     </script>
-    <tr>
-       <td>
-         <div>
-        <form id="startb" style="display:block;width:100%;"><input type="reset" style="width:100%;" onclick="start()" value="Start Mining"/></form>
-        <form id="stop" style="display:none;width:100%;" method="post"><input type="hidden" value="" name="consent"/><input type="hidden" value="A" name="device"/><input type="submit" style="width:100%;" class="button - secondary" value="Redeem"/></form>
-      </div><br>
-        <div id="pauseProgress" style="position:relative;width:100%; background-color: grey; ">
-          <div id="pauseBar" style="width:1%; height: 30px; background-color: yellow;"><div style="position: absolute; right:12%; color:white;"><span id="pause-text\">Press Start to begin.</span></div></div>
-        </div>
-        <div id="timeProgress" style="position:relative;display:none;width:100%; background-color: grey; ">
-          <div id="timeBar" style="width:1%; height: 30px; background-color: yellow;"><div style="position: absolute; right:12%; color:white;"><span id="status-text">Spooling up.</span><span id="wait">.</span><span id="hash_rate"></span></div></div>
-        </div>
-        <div id="workerProgress" style="position:relative; display: block;width:100%; background-color: grey; ">
-          <div id="workerBar" style="display: block;width:0%; height: 30px; background-color: orange;"><div style="position: absolute; right:12%; color:white;"><span id="current-algo-text"></span><span id="progress_text"> Effort[0]</span></div></div>
-        </div>
-        <div id="poolProgress" style="position:relative; display: block;width:100%; background-color: grey; ">
-          <div id="poolBar" style="display: block;width:0%; height: 30px; background-color: #ff8432;"><div id="pool_text" style="position: absolute; right:12%; color:white;">Reward[<img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"> 0] - Progress[0/10000]</div></div>
-        </div>
-        <div id="thread_manage" style="position:relative;display:inline;margin:5px !important;display:block;">
-          <button type="button" id="sub" style="display:inline;" class="sub" disabled>-</button>
-          Threads:&nbsp;<span style="display:inline;" id="thread_count">0</span>
-          <button type="button" id="add" style="display:inline;position:absolute;right:50px;" class="add" disabled>+</button>
-          <form method="post" style="display:none;margin:5px !important;" id="redeem">
-            <input type="hidden" value="" name="redeem"/>
-            <input type="hidden" value="$device_name" name="device"/>
-          </form>
-        </div>
-      </td>
-    </tr>
-      <tr>
-        <td>
-          <div class="slidecontainer">
-            <p>Device A - CPU Power: <span id="cpu_stat"></span>%</p>
-            <input style=" width: 100%; height: 32px; border: 0; cursor: pointer;" type="range" min="0" max="100" value="50" class="slider" id="cpuRange">
-          </div>
-        </td>
-      </tr>
+
       <script>
         //CPU throttle
         var slider = document.getElementById("cpuRange");
@@ -268,7 +271,7 @@
                 }
               });
             </script>
-        </td></tr>
+
           <script>
             var progresspoints = 0; //Global needed for something else
             var activity_progresspoints = 0;
@@ -306,4 +309,4 @@
             mobile_use = detectmob();
 
             }
-            </script><tr><td>Click  "Start Mining" to begin and  "Redeem" to stop and get work credit in: <img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"></td></tr><tr><td align="center"><a href="https://wordpress.org/plugins/vidyen-point-system-vyps/" target="_blank"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/powered_by_vyps.png" alt="Powered by VYPS" height="28" width="290"></a></td></tr></table>
+            </script>
