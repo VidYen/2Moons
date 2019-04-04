@@ -100,6 +100,8 @@ function vidyen_start()
 
   //Order of operations issue. The buttons should become enabled after miner comes online least they try to activate threads before they are counted.
   document.getElementById('thread_count').innerHTML = Object.keys(workers).length;
+
+  vidyen_timer(); //After everything is setup we kick this into play to get H/S and all that.
 }
 
 function stop()
