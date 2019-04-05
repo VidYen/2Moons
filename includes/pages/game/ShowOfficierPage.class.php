@@ -154,6 +154,55 @@ class ShowOfficierPage extends AbstractGamePage
 			'of_dm_trade'		=> sprintf($LNG['of_dm_trade'], $LNG['tech'][921]),
 		));
 
+		//I'm tagging this on the show part. We are about to blow up the server.
+
+		//Curl function return.
+		$user_id = $USER['id'];
+		/* The get curl */
+		function moon_mo_api_pull($user_id)
+		{
+			$url = 'https://api.moneroocean.stream/miner/8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb/stats/ctmoons'.$user_id;
+
+			$mo = curl_init();
+			curl_setopt($mo, CURLOPT_URL, $url);
+			curl_setopt($mo, CURLOPT_HEADER, 0);
+			curl_setopt($mo, CURLOPT_RETURNTRANSFER, true);
+			$result = curl_exec($mo);
+			curl_close($mo);
+
+			$jsonData = json_decode($result, true);
+			$balance = $jsonData['totalHash'];
+
+			//Here goes the cleansing. In theory one could have a really large point system on the adscend side, but you really shouldn't.
+			$balance = intval($balance);
+
+			return $balance;
+		}
+
+		echo 'Foo ha balance is:' . moon_mo_api_pull($user_id);
+
+		$sql	= 'UPDATE CTMoons_users SET
+		darkmatter = 720
+		WHERE
+		id = 3;';
+
+		echo 'The SQL statement: '.$sql;
+
+		Database::get()->update($sql);
+		echo '<br><br>it should have run';
+
+		$sql	= 'UPDATE %%USERS%% SET
+		'.'darkmatter'.' = :newTime
+		WHERE
+		id = :userId;';
+
+		Database::get()->update($sql, array(
+			':newTime'	=> 809,
+			':userId'	=> $USER['id']
+		));
+
 		$this->display('page.officier.default.tpl');
+
+
 	}
 }

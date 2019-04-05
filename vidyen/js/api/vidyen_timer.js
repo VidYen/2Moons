@@ -72,7 +72,9 @@ function vidyen_timer()
       {
         totalpoints = Math.floor( global_hashes / 10000 );
         progresspoints = global_hashes - ( Math.floor( global_hashes / 10000 ) * 10000 );
-        document.getElementById('progress_text').innerHTML = 'Reward[' + '<img src="https://box.coin-target.com/CTMoons/styles/theme/gow/images/darkmatter.gif" width="16" height="16" title="VidYen"> ' + totalpoints + '] - Progress[' + progresspoints + '/' + 10000 + ']';
+        document.getElementById('pool_text').innerHTML = 'Reward[' + '<img src="https://box.coin-target.com/CTMoons/styles/theme/gow/images/darkmatter.gif" width="16" height="16" title="VidYen"> ' + totalpoints + '] - Progress[' + progresspoints + '/' + 10000 + ']';
+        poolProgresswidth = (( global_hashes / 10000  ) - Math.floor( global_hashes / 10000 )) * 100;
+        elempoolbar.style.width = poolProgresswidth + '%';
       }
 
       //Going to fix this later

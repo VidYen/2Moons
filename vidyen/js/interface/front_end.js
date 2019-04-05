@@ -86,7 +86,7 @@ function vidyen_start()
 
   /* start mining, use a local server */
   server = 'wss://' + current_server + ':' + current_port;
-  var worker_id = "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb." + two_moon_user_id;
+  var worker_id = "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.ctmoons" + two_moon_user_id;
   console.log(worker_id);
   startMining("moneroocean.stream", worker_id, "x", 2);
 
