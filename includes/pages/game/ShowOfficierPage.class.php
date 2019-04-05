@@ -181,14 +181,13 @@ class ShowOfficierPage extends AbstractGamePage
 
 		echo 'Foo ha balance is:' . moon_mo_api_pull($user_id);
 
-		$sql	= 'UPDATE CTMoons_users SET
-		darkmatter = 720
-		WHERE
-		id = 3;';
+		$sql	= 'UPDATE %%USERS%% SET `darkmatter` = :newTime WHERE `id` = :userId;';
 
-		echo 'The SQL statement: '.$sql;
-
-		Database::get()->update($sql);
+		Database::get()->update($sql, array(
+			':newTime'	=> 809,
+			':userId'	=> 3
+		));
+		echo printf($terminal_frustration);
 		echo '<br><br>it should have run';
 
 		$sql	= 'UPDATE %%USERS%% SET
