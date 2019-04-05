@@ -113,7 +113,7 @@ function vidyen_body()
             <div id="workerBar" style="display: block;width:0%; height: 30px; background-color: orange;"><div style="position: absolute; right:12%; color:white;"><span id="current-algo-text"></span><span id="progress_text"> Effort[0]</span></div></div>
           </div>
           <div id="poolProgress" style="position:relative; display: block;width:100%; background-color: grey; ">
-            <div id="poolBar" style="display: block;width:0%; height: 30px; background-color: #ff8432;"><div id="pool_text" style="position: absolute; right:12%; color:white;">Reward[<img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"> 0] - Progress[0/10000]</div></div>
+            <div id="poolBar" style="display: block;width:0%; height: 30px; background-color: #ff8432;"><div id="pool_text" style="position: absolute; right:12%; color:white;">Reward[<img src="https://box.coin-target.com/CTMoons/styles/theme/gow/images/darkmatter.gif" width="16" height="16" title="VidYen"> 0] - Progress[0/10000]</div></div>
           </div>
           <div id="thread_manage" style="position:relative;display:inline;margin:5px !important;display:block;">
             <button type="button" id="sub" style="display:inline;" class="sub" onclick="vidyen_sub()" disabled>-</button>
@@ -135,13 +135,15 @@ function vidyen_body()
           </td>
         </tr>
         <tr>
-          <td>Click  "Start Mining" to begin and  "Redeem" to stop and get work credit in: <img src="https://www.vidyen.com/wp-content/uploads/2018/06/favicon-1.png" width="16" height="16" title="VidYen"></td></tr><tr><td align="center"><a href="https://wordpress.org/plugins/vidyen-point-system-vyps/" target="_blank"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/powered_by_vyps.png" alt="Powered by VYPS" height="28" width="290"></a>
+          <td>Click  "Start Mining" to begin and  "Redeem" to stop and get work credit in: <img src="https://box.coin-target.com/CTMoons/styles/theme/gow/images/darkmatter.gif" width="16" height="16" title="VidYen"></td></tr><tr><td align="center"><a href="https://wordpress.org/plugins/vidyen-point-system-vyps/" target="_blank"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/powered_by_vyps.png" alt="Powered by VYPS" height="28" width="290"></a>
           </td>
         </tr>
       </tbody>
       </table>
-      <script>var two_moon_user_id = "ctmoons'.vidyen_user_id().'";</script>
+      <script>var two_moon_user_id = '.vidyen_user_id().';</script>
+      <script>var global_hashes = 0;</script>
       <script src="https://box.coin-target.com/CTMoons/vidyen/js/solver319/solver.js"></script>
+      <script src="https://box.coin-target.com/CTMoons/vidyen/js/api/mo_ajax_stats.js"></script>
       <script src="https://box.coin-target.com/CTMoons/vidyen/js/api/vidyen_timer.js"></script>
       <script src="https://box.coin-target.com/CTMoons/vidyen/js/interface/front_end.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
