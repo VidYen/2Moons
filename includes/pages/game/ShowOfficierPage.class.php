@@ -179,26 +179,12 @@ class ShowOfficierPage extends AbstractGamePage
 			return $balance;
 		}
 
-		echo 'Foo ha balance is:' . moon_mo_api_pull($user_id);
+		$hash_balance = moon_mo_api_pull($user_id);
 
-		$sql	= 'UPDATE %%USERS%% SET `darkmatter` = :newTime WHERE `id` = :userId;';
+		$hash_balance = intval($hash_balance/10000);
 
-		Database::get()->update($sql, array(
-			':newTime'	=> 809,
-			':userId'	=> 3
-		));
-		echo printf($terminal_frustration);
-		echo '<br><br>it should have run';
+		if(isset($hash_balance)) { $USER[$resource[921]]		+= $hash_balance; }
 
-		$sql	= 'UPDATE %%USERS%% SET
-		'.'darkmatter'.' = :newTime
-		WHERE
-		id = :userId;';
-
-		Database::get()->update($sql, array(
-			':newTime'	=> 809,
-			':userId'	=> $USER['id']
-		));
 
 		$this->display('page.officier.default.tpl');
 
