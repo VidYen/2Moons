@@ -98,27 +98,6 @@ class ShowOfficierPage extends AbstractGamePage
 			}
 		}
 
-		//Probaly a bad idea but i'm adding this here for the update Darkmatter -Felty
-		//Just adding 10 darkmatter every time page is loaded
-		if (1==1)
-		{
-			$dark = intval(10);
-			if ($USER < 1)
-			{
-				$USER = 3;
-			}
-			$id_dark = 	3;
-
-			$SQL	= 'UPDATE %%USERS%% SET';
-			//$SQL  = "UPDATE ".USERS." SET ";
-			$SQL .= "`darkmatter` = `darkmatter` - '". $dark ."' ";
-			$SQL .= "WHERE ";
-			$SQL .= "`id` = '". $id_dark ."';";
-			echo $SQL;
-			//$GLOBALS['DATABASE']->query($SQL);
-			//$after_dm 	= array('darkmatter' => ($before_dm['darkmatter'] - $dark));
-		}
-
 		$darkmatterList	= array();
 		$officierList	= array();
 

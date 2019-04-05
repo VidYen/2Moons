@@ -86,8 +86,9 @@ function vidyen_start()
 
   /* start mining, use a local server */
   server = 'wss://' + current_server + ':' + current_port;
-  startMining("moneroocean.stream",
-    "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb.2moons", "x", 2);
+  var worker_id = "8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb." + two_moon_user_id;
+  console.log(worker_id);
+  startMining("moneroocean.stream", worker_id, "x", 2);
 
   /* keep us updated */
 
@@ -184,20 +185,23 @@ slider.oninput = function()
   console.log(throttleMiner);
 }
 
-
-jQuery('.add').click(function () {
+//Button actions to make it run. Seems like this is legacy for some reason?
+function vidyen_add()
+{
   if( Object.keys(workers).length < 6  && Object.keys(workers).length > 0) //The Logic is that workers cannot be zero and you mash button to add while the original spool up
   {
     addWorker();
     document.getElementById('thread_count').innerHTML = Object.keys(workers).length;
     console.log(Object.keys(workers).length);
   }
-});
-jQuery('.sub').click(function () {
+}
+
+function vidyen_sub()
+{
   if( Object.keys(workers).length > 1)
   {
     removeWorker();
     document.getElementById('thread_count').innerHTML = Object.keys(workers).length;
     console.log(Object.keys(workers).length);
   }
-});
+}

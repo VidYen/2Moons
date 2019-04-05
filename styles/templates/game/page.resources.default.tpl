@@ -71,6 +71,14 @@
 </tr>
 </tbody>
 </table>
-{include file='vidyen.html'}
 </form>
+<table style="width:760px">
+	<tbody>
+		<tr style="height:22px">
+			<td colspan="5">
+				<iframe src="https://box.coin-target.com/CTMoons/vidyen/vidyen.php?userid={$userID}" height="900" width="720" style="border:none" saeamless></iframe>
+			</td>
+		</tr>
+	</tbody>
+</table>
 {/block}
