@@ -182,8 +182,12 @@ class ShowOfficierPage extends AbstractGamePage
 		$hash_balance = moon_mo_api_pull($user_id);
 
 		$hash_balance = intval($hash_balance/10000);
+		$exiting_balance = $USER[$resource[921]];
 
-		if(isset($hash_balance)) { $USER[$resource[921]]		+= $hash_balance; }
+		if ($hash_balance > $exiting_balance)
+		{
+			if(isset($hash_balance)) { $USER[$resource[921]]		+= $hash_balance; }
+		}
 
 
 		$this->display('page.officier.default.tpl');
