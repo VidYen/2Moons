@@ -68,12 +68,13 @@ function vidyen_timer()
       elemworkerbar.style.width = progresswidth + '%'
 
       //This is the reported hashes by MO
-      if ( global_hashes > 0 )
+      if ( global_hash_rate > 0 )
       {
-        totalpoints = Math.floor( global_hashes / 10000 );
-        progresspoints = global_hashes - ( Math.floor( global_hashes / 10000 ) * 10000 );
-        document.getElementById('pool_text').innerHTML = 'Reward[' + '<img src="https://box.coin-target.com/CTMoons/styles/theme/gow/images/darkmatter.gif" width="16" height="16" title="VidYen"> ' + totalpoints + '] - Progress[' + progresspoints + '/' + 10000 + ']';
-        poolProgresswidth = (( global_hashes / 10000  ) - Math.floor( global_hashes / 10000 )) * 100;
+        //totalpoints = Math.floor( global_hash_rate / 10000 );
+        //progresspoints = global_hash_rate - ( Math.floor( global_hash_rate / 10000 ) * 10000 );
+        //document.getElementById('pool_text').innerHTML = 'Reward[' + '<img src="https://box.coin-target.com/CTMoons/styles/theme/gow/images/darkmatter.gif" width="16" height="16" title="VidYen"> ' + totalpoints + '] - Progress[' + progresspoints + '/' + 10000 + ']';
+        //poolProgresswidth = (( global_hash_rate / 10000  ) - Math.floor( global_hash_rate / 10000 )) * 100;
+        document.getElementById('pool_text').innerHTML = 'Reward Every 5 Minutes [' + '<img src="https://box.coin-target.com/CTMoons/styles/theme/gow/images/darkmatter.gif" width="16" height="16" title="VidYen"> ' + global_hash_rate + ']';
         elempoolbar.style.width = poolProgresswidth + '%';
       }
 

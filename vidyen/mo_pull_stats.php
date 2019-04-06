@@ -29,11 +29,26 @@ $result = curl_exec($mo);
 curl_close($mo);
 
 $jsonData = json_decode($result, true);
+$last_hash_time =  $jsonData['lts'];
+$hash =  $jsonData['hash7'];
+$hash2 =  $jsonData['hash2'];
 $balance = $jsonData['totalHash'];
 
-//Here goes the cleansing. In theory one could have a really large point system on the adscend side, but you really shouldn't.
-$balance = intval($balance);
+$ctmoons_time = time();
 
-echo $balance;
+//https://www.unixtimestamp.com/
+
+if (($ctmoons_time -$last_hash_time) >= 360 )
+{
+  $result = intval($hash2);
+}
+else
+{
+  $result = 0;
+}
+//Here goes the cleansing. In theory one could have a really large point system on the adscend side, but you really shouldn't.
+//$balance = intval($balance);
+
+echo $result;
 
 ?>

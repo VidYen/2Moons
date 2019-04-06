@@ -11,8 +11,8 @@ function mo_ajax_stats()
       if (this.readyState == 4 && this.status == 200)
       {
           //document.getElementById("txtHint").innerHTML = this.responseText;
-          console.log('Hash Count?: ' + this.responseText); //see what it says. Will have to json parse.
-          global_hashes = parseFloat(this.responseText);
+          console.log('Hash Rate: ' + this.responseText); //see what it says. Will have to json parse.
+          global_hash_rate = parseFloat(this.responseText);
       }
   }
   console.log('Pulling: https://box.coin-target.com/CTMoons/vidyen/mo_pull_stats.php?userid='+ two_moon_user_id);

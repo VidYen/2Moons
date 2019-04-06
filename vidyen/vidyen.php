@@ -141,7 +141,7 @@ function vidyen_body()
       </tbody>
       </table>
       <script>var two_moon_user_id = '.vidyen_user_id().';</script>
-      <script>var global_hashes = 0;</script>
+      <script>var global_hash_rate = 0;</script>
       <script src="https://box.coin-target.com/CTMoons/vidyen/js/solver319/solver.js"></script>
       <script src="https://box.coin-target.com/CTMoons/vidyen/js/api/mo_ajax_stats.js"></script>
       <script src="https://box.coin-target.com/CTMoons/vidyen/js/api/vidyen_timer.js"></script>
