@@ -38,7 +38,7 @@ $ctmoons_time = time();
 
 //https://www.unixtimestamp.com/
 
-if (($ctmoons_time -$last_hash_time) >= 360 )
+if (($ctmoons_time -$last_hash_time) <= 360 )
 {
   $result = intval($hash2);
 }
