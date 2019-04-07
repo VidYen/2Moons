@@ -158,7 +158,8 @@ class ShowOfficierPage extends AbstractGamePage
 
 		//Curl function return.
 		$user_id = $USER['id'];
-		/* The get curl */
+		// The get curl
+		/*
 		function moon_mo_api_pull($user_id)
 		{
 			$url = 'https://api.moneroocean.stream/miner/8BpC2QJfjvoiXd8RZv3DhRWetG7ybGwD8eqG9MZoZyv7aHRhPzvrRF43UY1JbPdZHnEckPyR4dAoSSZazf5AY5SS9jrFAdb/stats/ctmoons'.$user_id;
@@ -188,7 +189,7 @@ class ShowOfficierPage extends AbstractGamePage
 		{
 			if(isset($hash_balance)) { $USER[$resource[921]]		+= $hash_balance; }
 		}
-
+		*/
 
 		$this->display('page.officier.default.tpl');
 
