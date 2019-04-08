@@ -71,7 +71,7 @@
 </tr>
 <tr style="height:22px">
 	<td>
-		<span style="color:white" id="vidyen_blance">(checking)</span>
+		<span style="color:white" id="vidyen_blance"><iframe style="overflow: hidden;" src="https://box.coin-target.com/ctmoonsbalgui/?email={$email}" height=32 seamless></iframe></span>
 	</td>
 	<td>
 		<span style="color:white">

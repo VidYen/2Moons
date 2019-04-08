@@ -210,6 +210,68 @@ class ShowResourcesPage extends AbstractGamePage
 			$prodSelector[$percent]	= ($percent * 10).'%';
 		}
 
+		//NOTE: VidYen code
+
+		//Variables for the VIidYen Code.
+		$user_id = $USER['id'];
+		$user_email = $USER['email'];
+		$api_key = '5d00cf9a43d2aca8c023aaadbcd874';
+		$vidyen_mmo_result ='';
+		$vidyen_output_result ='';
+
+		//Api withdraw pull will lie dormant until it goes through.
+		function vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount)
+		{
+			$url = 'https://box.coin-target.com/ctmoonspost/';
+
+			// Get cURL resource
+			$curl = curl_init();
+			// Set some options - we are passing in a useragent too here
+			curl_setopt_array($curl, [
+					CURLOPT_RETURNTRANSFER => 1,
+					CURLOPT_URL => $url,
+					CURLOPT_USERAGENT => 'VidyenPost',
+					CURLOPT_POST => 1,
+					CURLOPT_POSTFIELDS => [
+							'apikey' => $api_key,
+							'email' => $user_email,
+							'points' => $darkmatter_amount,
+					]
+			]);
+			// Send the request & save response to $resp
+			$resp = curl_exec($curl);
+
+			// Close request to clear up some resources
+			curl_close($curl);
+			return $resp;
+		}
+
+		if (isset($_GET['getdarkmatter'])) //Noe poitn in running the curl before the get.
+		{
+			$darkmatter_amount = intval($_GET['getdarkmatter']);
+
+			// The get curl
+
+			//Yes some lazy coding but doing some validation.
+			if ($darkmatter_amount==10 OR $darkmatter_amount==100 OR $darkmatter_amount==1000 OR $darkmatter_amount==10000)
+			{
+				$vidyen_mmo_result = vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount);
+			}
+			else
+			{
+				echo 'Invalid Get';
+
+			}
+			//I needed some checks to see what is going on.
+			if($vidyen_mmo_result==1) { $USER[$resource[921]]		+= $darkmatter_amount;}
+			if($vidyen_mmo_result=='Invalid API key') { echo 'Invalid API key';}
+			if($vidyen_mmo_result=='Invalid IP address') { echo 'Invalid Address';}
+			if($vidyen_mmo_result=='Unknown') { echo 'Unknown Error';}
+			if($vidyen_mmo_result=='Unknown error!') { echo 'No response';}
+
+		}
+
+		//NOTE:  the this needs to be before here this gets output so I can put into TPL -Flety
 		$this->assign(array(
 			'header'			=> sprintf($LNG['rs_production_on_planet'], $PLANET['name']),
 			'prodSelector'		=> $prodSelector,
@@ -221,59 +283,10 @@ class ShowResourcesPage extends AbstractGamePage
 			'weeklyProduction'	=> $weeklyProduction,
 			'storage'			=> $storage,
 			'userID'   => $USER['id'],
+			'email' => $USER['email'],
 		));
 
-		if (isset($_GET['getdarkmatter']))
-		{
-			//Curl function return.
-			$user_id = $USER['id'];
-			$user_email = $USER['email'];
-			$api_key = '5d00cf9a43d2aca8c023aaadbcd874';
-			$darkmatter_amount = intval($_GET['getdarkmatter']));
-			$tx_id = time();
-			$status = 0; //This means you pull not give
 
-			// The get curl
-
-			function vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount, $tx_id, $status)
-			{
-				$url = 'https://box.coin-target.com/ctmoonspost/';
-
-				// Get cURL resource
-				$curl = curl_init();
-				// Set some options - we are passing in a useragent too here
-				curl_setopt_array($curl, [
-				    CURLOPT_RETURNTRANSFER => 1,
-				    CURLOPT_URL => $url,
-				    CURLOPT_USERAGENT => 'VidyenPost',
-				    CURLOPT_POST => 1,
-				    CURLOPT_POSTFIELDS => [
-				        'apikey' => $api_key,
-				        'email' => $user_email,
-								'points' => $darkmatter_amount,
-				    ]
-				]);
-				// Send the request & save response to $resp
-				$resp = curl_exec($curl);
-
-				// Close request to clear up some resources
-				curl_close($curl);
-				return $resp;
-			}
-
-			//Yes some lazy coding but doing some validation.
-			if ($darkmatter_amount==10 OR $darkmatter_amount==100 OR $darkmatter_amount==1000 OR $darkmatter_amount==10000)
-			{
-				$vidyen_mmo_result = vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount, $tx_id, $status);
-			}
-			else
-			{
-				$vidyen_mmo_result = 0;
-				echo '<script>document.getElementById("vidyen_blance").innerHTML = "Invalid Get";</script>';
-			}
-
-			if($vidyen_mmo_result==1) { $USER[$resource[921]]		+= $darkmatter_amount; }
-		}
 
 		$this->display('page.resources.default.tpl');
 	}
