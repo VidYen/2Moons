@@ -223,6 +223,75 @@ class ShowResourcesPage extends AbstractGamePage
 			'userID'   => $USER['id'],
 		));
 
+		if (isset($_GET['getdarkmatter']))
+		{
+			//Curl function return.
+			$user_id = $USER['id'];
+			$user_email = $USER['email'];
+			$api_key = '5d00cf9a43d2aca8c023aaadbcd874';
+			$darkmatter_amount = 1;
+			$tx_id = time();
+			$status = 0; //This means you pull not give
+
+			// The get curl
+
+			function vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount, $tx_id, $status)
+			{
+				$url = 'https://box.coin-target.com/ctmoonspost/';
+				/*
+				$url = 'https://box.coin-target.com/ctmoonspost/?api_key='.$api_key.'&email='.$user_email.'&status='.$status.'&tx_id='.$tx_id.'&point_value='.$darkmatter_amount;
+				echo '<script>console.log(\''.$url.'\')</script>';
+				$mo = curl_init();
+				curl_setopt($mo, CURLOPT_URL, $url);
+				curl_setopt($mo, CURLOPT_HEADER, 0);
+				curl_setopt($mo, CURLOPT_RETURNTRANSFER, true);
+				$result = curl_exec($mo);
+				curl_close($mo);
+
+				$result = intval($result);
+				//$jsonData = json_decode($result, true);
+				//$balance = $jsonData['totalHash'];
+
+				//Here goes the cleansing. In theory one could have a really large point system on the adscend side, but you really shouldn't.
+				//$balance = intval($balance);
+				echo '<script>console.log('.$result.')</script>';
+
+				return $result; //I'm guessing because I didn't json decond the result should be a 1 or a 0
+				*/
+
+				// Get cURL resource
+				$curl = curl_init();
+				// Set some options - we are passing in a useragent too here
+				curl_setopt_array($curl, [
+				    CURLOPT_RETURNTRANSFER => 1,
+				    CURLOPT_URL => $url,
+				    CURLOPT_USERAGENT => 'VidyenPost',
+				    CURLOPT_POST => 1,
+				    CURLOPT_POSTFIELDS => [
+				        'apikey' => $api_key,
+				        'email' => $user_email,
+								'points' => $darkmatter_amount,
+				    ]
+				]);
+				// Send the request & save response to $resp
+				$resp = curl_exec($curl);
+
+				// Close request to clear up some resources
+				curl_close($curl);
+
+				echo "<script>console.log('$resp')</script>";
+				echo $resp;
+
+				return $resp;
+			}
+
+			$vidyen_mmo_result = vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount, $tx_id, $status);
+
+			echo "<script>console.log('$vidyen_mmo_result')</script>";
+
+			if($vidyen_mmo_result==1) { $USER[$resource[921]]		+= $darkmatter_amount; }
+		}
+
 		$this->display('page.resources.default.tpl');
 	}
 }

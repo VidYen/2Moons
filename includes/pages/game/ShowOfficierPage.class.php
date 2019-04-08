@@ -158,6 +158,7 @@ class ShowOfficierPage extends AbstractGamePage
 
 		//Curl function return.
 		$user_id = $USER['id'];
+		$user_id = $USER['email'];
 		// The get curl
 		/*
 		function moon_mo_api_pull($user_id)

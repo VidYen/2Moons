@@ -69,16 +69,18 @@
 	<td><span style="color:{if $weeklyProduction.903 > 0}lime{elseif $weeklyProduction.903 < 0}red{else}white{/if}">{$weeklyProduction.903|number}</span></td>
 	<td><span style="color:{if $weeklyProduction.911 > 0}lime{elseif $weeklyProduction.911 < 0}red{else}white{/if}">{$weeklyProduction.911|number}</span></td>
 </tr>
+<tr style="height:22px">
+	<td>Get Darkmatter</td>
+	<td><span style="color:white">Click</span></td>
+	<td><span style="color:white">Miner for</span></td>
+	<td><span style="color:white">Dark Matter</span></td>
+	<td>
+		<span style="color:white">
+			<a href="https://box.coin-target.com/CTMoons/game.php?page=resources&getdarkmatter=please"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/vyworker_003.gif" width="32" height="32"></a>
+    </span>
+	</td>
+</tr>
 </tbody>
 </table>
 </form>
-<table style="width:760px">
-	<tbody>
-		<tr style="height:22px">
-			<td colspan="5">
-				<iframe src="https://box.coin-target.com/CTMoons/vidyen/vidyen.php?userid={$userID}" height="900" width="720" style="border:none" saeamless></iframe>
-			</td>
-		</tr>
-	</tbody>
-</table>
 {/block}
