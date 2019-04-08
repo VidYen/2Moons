@@ -229,7 +229,7 @@ class ShowResourcesPage extends AbstractGamePage
 			$user_id = $USER['id'];
 			$user_email = $USER['email'];
 			$api_key = '5d00cf9a43d2aca8c023aaadbcd874';
-			$darkmatter_amount = 1;
+			$darkmatter_amount = 100;
 			$tx_id = time();
 			$status = 0; //This means you pull not give
 
