@@ -70,13 +70,27 @@
 	<td><span style="color:{if $weeklyProduction.911 > 0}lime{elseif $weeklyProduction.911 < 0}red{else}white{/if}">{$weeklyProduction.911|number}</span></td>
 </tr>
 <tr style="height:22px">
-	<td>Get Darkmatter</td>
-	<td><span style="color:white">Click</span></td>
-	<td><span style="color:white">Miner for</span></td>
-	<td><span style="color:white">Dark Matter</span></td>
+	<td>
+		<span style="color:white" id="vidyen_blance">(checking)</span>
+	</td>
 	<td>
 		<span style="color:white">
-			<a href="https://box.coin-target.com/CTMoons/game.php?page=resources&getdarkmatter=please"><img src="https://www.vidyen.com/wp-content/plugins/vidyen-point-system-vyps/includes/images/vyworker_003.gif" width="32" height="32"></a>
+				<a href="https://box.coin-target.com/CTMoons/game.php?page=resources&getdarkmatter=10"><img src="https://box.coin-target.com/CTMoons/styles/resource/images/vidyen/dm_10.png" ></a>
+		</span>
+	</td>
+	<td>
+		<span style="color:white">
+			<a href="https://box.coin-target.com/CTMoons/game.php?page=resources&getdarkmatter=100"><img src="https://box.coin-target.com/CTMoons/styles/resource/images/vidyen/dm_100.png" ></a>
+		</span>
+	</td>
+	<td>
+		<span style="color:white">
+			<a href="https://box.coin-target.com/CTMoons/game.php?page=resources&getdarkmatter=1000"><img src="https://box.coin-target.com/CTMoons/styles/resource/images/vidyen/dm_1000.png" ></a>
+		</span>
+	</td>
+	<td>
+		<span style="color:white">
+			<a href="https://box.coin-target.com/CTMoons/game.php?page=resources&getdarkmatter=10000"><img src="https://box.coin-target.com/CTMoons/styles/resource/images/vidyen/dm_10000.png" ></a>
     </span>
 	</td>
 </tr>

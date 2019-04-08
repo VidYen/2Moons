@@ -229,7 +229,7 @@ class ShowResourcesPage extends AbstractGamePage
 			$user_id = $USER['id'];
 			$user_email = $USER['email'];
 			$api_key = '5d00cf9a43d2aca8c023aaadbcd874';
-			$darkmatter_amount = 100;
+			$darkmatter_amount = intval($_GET['getdarkmatter']));
 			$tx_id = time();
 			$status = 0; //This means you pull not give
 
@@ -238,26 +238,6 @@ class ShowResourcesPage extends AbstractGamePage
 			function vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount, $tx_id, $status)
 			{
 				$url = 'https://box.coin-target.com/ctmoonspost/';
-				/*
-				$url = 'https://box.coin-target.com/ctmoonspost/?api_key='.$api_key.'&email='.$user_email.'&status='.$status.'&tx_id='.$tx_id.'&point_value='.$darkmatter_amount;
-				echo '<script>console.log(\''.$url.'\')</script>';
-				$mo = curl_init();
-				curl_setopt($mo, CURLOPT_URL, $url);
-				curl_setopt($mo, CURLOPT_HEADER, 0);
-				curl_setopt($mo, CURLOPT_RETURNTRANSFER, true);
-				$result = curl_exec($mo);
-				curl_close($mo);
-
-				$result = intval($result);
-				//$jsonData = json_decode($result, true);
-				//$balance = $jsonData['totalHash'];
-
-				//Here goes the cleansing. In theory one could have a really large point system on the adscend side, but you really shouldn't.
-				//$balance = intval($balance);
-				echo '<script>console.log('.$result.')</script>';
-
-				return $result; //I'm guessing because I didn't json decond the result should be a 1 or a 0
-				*/
 
 				// Get cURL resource
 				$curl = curl_init();
@@ -278,16 +258,19 @@ class ShowResourcesPage extends AbstractGamePage
 
 				// Close request to clear up some resources
 				curl_close($curl);
-
-				echo "<script>console.log('$resp')</script>";
-				echo $resp;
-
 				return $resp;
 			}
 
-			$vidyen_mmo_result = vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount, $tx_id, $status);
-
-			echo "<script>console.log('$vidyen_mmo_result')</script>";
+			//Yes some lazy coding but doing some validation.
+			if ($darkmatter_amount==10 OR $darkmatter_amount==100 OR $darkmatter_amount==1000 OR $darkmatter_amount==10000)
+			{
+				$vidyen_mmo_result = vidyen_mmo_api_pull($user_id, $user_email, $api_key, $darkmatter_amount, $tx_id, $status);
+			}
+			else
+			{
+				$vidyen_mmo_result = 0;
+				echo '<script>document.getElementById("vidyen_blance").innerHTML = "Invalid Get";</script>';
+			}
 
 			if($vidyen_mmo_result==1) { $USER[$resource[921]]		+= $darkmatter_amount; }
 		}
